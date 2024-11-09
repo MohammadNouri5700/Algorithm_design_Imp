@@ -66,6 +66,7 @@
             txtState.Name = "txtState";
             txtState.Size = new Size(239, 23);
             txtState.TabIndex = 2;
+            txtState.Text = "0";
             // 
             // btnAddNode
             // 

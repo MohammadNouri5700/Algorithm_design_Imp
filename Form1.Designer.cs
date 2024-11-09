@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            btnDijkstra = new Button();
             button1 = new Button();
             btnAddNode = new Button();
             panel2 = new Panel();
@@ -44,12 +45,25 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.Controls.Add(btnDijkstra);
             panel1.Controls.Add(button1);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(250, 681);
             panel1.TabIndex = 0;
+            // 
+            // btnDijkstra
+            // 
+            btnDijkstra.Dock = DockStyle.Top;
+            btnDijkstra.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDijkstra.Location = new Point(0, 50);
+            btnDijkstra.Name = "btnDijkstra";
+            btnDijkstra.Size = new Size(250, 50);
+            btnDijkstra.TabIndex = 1;
+            btnDijkstra.Text = "Dijkstra's";
+            btnDijkstra.UseVisualStyleBackColor = true;
+            btnDijkstra.Click += btnDijkstra_Click;
             // 
             // button1
             // 
@@ -96,6 +110,7 @@
             btnAddTmp.TabIndex = 3;
             btnAddTmp.Text = "ADD TMP";
             btnAddTmp.UseVisualStyleBackColor = true;
+            btnAddTmp.Visible = false;
             btnAddTmp.Click += btnAddTmp_Click;
             // 
             // btnAddEdge
@@ -128,6 +143,7 @@
             btnStart.TabIndex = 0;
             btnStart.Text = "Start";
             btnStart.UseVisualStyleBackColor = true;
+            btnStart.Visible = false;
             // 
             // Form1
             // 
@@ -157,5 +173,6 @@
         private Button btnAddTmp;
         private Panel panel3;
         private Button btnStart;
+        private Button btnDijkstra;
     }
 }

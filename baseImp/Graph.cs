@@ -36,5 +36,7 @@ namespace Algorithm_design_Imp.baseImp
         {
             return Nodes.FirstOrDefault(n => n.Name == name);
         }
+
+
     }
 }

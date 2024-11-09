@@ -1,4 +1,5 @@
-﻿using Algorithm_design_Imp.baseImp;
+﻿using Algorithm_design_Imp.algoritms;
+using Algorithm_design_Imp.baseImp;
 using System.Windows.Forms.VisualStyles;
 using System.Xml.Linq;
 
@@ -13,7 +14,7 @@ namespace Algorithm_design_Imp
 
         public void addTmp()
         {
-            var node = new Node("a", new Point(300, 100),0);
+            var node = new Node("a", new Point(300, 100), 0);
             graph.AddNode(node);
             node = new Node("b", new Point(400, 200), 0);
             graph.AddNode(node);
@@ -27,7 +28,7 @@ namespace Algorithm_design_Imp
         }
 
         private Point _dragStartPoint;
-        private bool _isDragging = false; 
+        private bool _isDragging = false;
         private Node _draggedNode = null;
         private Node _selectedNode = null;
         public Form1()
@@ -65,7 +66,7 @@ namespace Algorithm_design_Imp
 
         private void btnAddNode_Click(object sender, EventArgs e)
         {
-            addNode addNode = new addNode(this,null);
+            addNode addNode = new addNode(this, null);
             addNode.ShowDialog();
         }
         protected override void OnPaint(PaintEventArgs e)
@@ -79,8 +80,8 @@ namespace Algorithm_design_Imp
                 var toPosition = GetEdgeEndPosition(edge.From.Position, edge.To.Position);
                 g.DrawLine(Pens.Black, fromPosition, toPosition);
 
-                if(edge.isDirected)
-                     DrawArrow(g, fromPosition, toPosition);
+                if (edge.isDirected)
+                    DrawArrow(g, fromPosition, toPosition);
 
                 var middlePoint = new Point((fromPosition.X + toPosition.X) / 2,
                                             (fromPosition.Y + toPosition.Y) / 2);
@@ -96,11 +97,11 @@ namespace Algorithm_design_Imp
         }
         private Edge GetEdgeAtPosition(Point location)
         {
-            foreach (var edge in Form1.graph.Edges) 
+            foreach (var edge in Form1.graph.Edges)
             {
                 // محاسبه فاصله عمودی یا افقی موس از خط یال
                 double distance = GetDistanceFromPointToLine(edge.From.Position, edge.To.Position, location);
-                if (distance <= 5)  
+                if (distance <= 5)
                 {
                     return edge;
                 }
@@ -120,11 +121,11 @@ namespace Algorithm_design_Imp
 
         private Point GetEdgeStartPosition(Point from, Point to)
         {
-      
+
             double angle = Math.Atan2(to.Y - from.Y, to.X - from.X);
 
-         
-            int offset = 1;  
+
+            int offset = 1;
 
             return new Point((int)(from.X + offset * Math.Cos(angle)),
                              (int)(from.Y + offset * Math.Sin(angle)));
@@ -134,16 +135,16 @@ namespace Algorithm_design_Imp
         {
             double angle = Math.Atan2(to.Y - from.Y, to.X - from.X);
 
-        
+
             int offset = 20;
 
-        
+
             return new Point((int)(to.X - offset * Math.Cos(angle)),
                              (int)(to.Y - offset * Math.Sin(angle)));
         }
         private void DrawArrow(Graphics g, Point from, Point to)
         {
-            double angle = Math.Atan2(from.Y - to.Y, from.X - to.X);  
+            double angle = Math.Atan2(from.Y - to.Y, from.X - to.X);
 
             float arrowLength = 10;
             float arrowWidth = 10;
@@ -159,11 +160,11 @@ namespace Algorithm_design_Imp
             PointF[] arrowHead = new PointF[] { arrowTip, leftWing, rightWing };
             g.FillPolygon(Brushes.Black, arrowHead);
         }
-     
+
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
             _isDragging = false;
-            _draggedNode = null; 
+            _draggedNode = null;
         }
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
@@ -185,7 +186,7 @@ namespace Algorithm_design_Imp
             if (_draggedNode != null)
             {
                 _isDragging = true;
-                _dragStartPoint = e.Location;  
+                _dragStartPoint = e.Location;
             }
         }
         private Node GetNodeAtPosition(Point location)
@@ -202,13 +203,19 @@ namespace Algorithm_design_Imp
 
         private void btnAddEdge_Click(object sender, EventArgs e)
         {
-            addEdge addNode = new addEdge(this,null);
+            addEdge addNode = new addEdge(this, null);
             addNode.ShowDialog();
         }
 
         private void btnAddTmp_Click(object sender, EventArgs e)
         {
             addTmp();
+        }
+
+        private void btnDijkstra_Click(object sender, EventArgs e)
+        {
+            DijkstraForm dijkstra = new DijkstraForm();
+            dijkstra.ShowDialog();
         }
     }
 }
