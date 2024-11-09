@@ -12,11 +12,12 @@ namespace Algorithm_design_Imp.baseImp
 
         public string Name { get; set; }
         public Point Position { get; set; }
-
-        public Node(string name, Point position)
+        public int State { get; set; }
+        public Node(string name, Point position, int state)
         {
             Name = name;
             Position = position;
+            State = state;
         }
     }
 

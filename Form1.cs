@@ -1,4 +1,5 @@
 ﻿using Algorithm_design_Imp.baseImp;
+using System.Windows.Forms.VisualStyles;
 using System.Xml.Linq;
 
 namespace Algorithm_design_Imp
@@ -12,23 +13,23 @@ namespace Algorithm_design_Imp
 
         public void addTmp()
         {
-            var node = new Node("a", new Point(300, 100));
+            var node = new Node("a", new Point(300, 100),0);
             graph.AddNode(node);
-            node = new Node("b", new Point(400, 200));
+            node = new Node("b", new Point(400, 200), 0);
             graph.AddNode(node);
-            node = new Node("c", new Point(400, 400));
+            node = new Node("c", new Point(400, 400), 0);
             graph.AddNode(node);
-            node = new Node("d", new Point(550, 300));
+            node = new Node("d", new Point(550, 300), 0);
             graph.AddNode(node);
-            node = new Node("e", new Point(700, 200));
+            node = new Node("e", new Point(700, 200), 0);
             graph.AddNode(node);
             Invalidate();
         }
 
         private Point _dragStartPoint;
         private bool _isDragging = false; 
-        private Node _draggedNode = null; 
-
+        private Node _draggedNode = null;
+        private Node _selectedNode = null;
         public Form1()
         {
             InitializeComponent();
@@ -36,11 +37,35 @@ namespace Algorithm_design_Imp
             this.MouseDown += Form1_MouseDown;
             this.MouseMove += Form1_MouseMove;
             this.MouseUp += Form1_MouseUp;
+            this.DoubleClick += Form1_DoubleClick;
+        }
+
+        private void Form1_DoubleClick(object? sender, EventArgs e)
+        {
+            MouseEventArgs mouseArgs = e as MouseEventArgs;
+            if (mouseArgs != null)
+            {
+                _selectedNode = GetNodeAtPosition(mouseArgs.Location);
+                if (_selectedNode != null && _isDragging)
+                {
+                    addNode editForm = new addNode(this, _selectedNode);
+                    editForm.ShowDialog();
+                }
+                else
+                {
+                    Edge selectedEdge = GetEdgeAtPosition(mouseArgs.Location);
+                    if (selectedEdge != null)
+                    {
+                        addEdge editEdgeForm = new addEdge(this, selectedEdge);
+                        editEdgeForm.ShowDialog();
+                    }
+                }
+            }
         }
 
         private void btnAddNode_Click(object sender, EventArgs e)
         {
-            addNode addNode = new addNode(this);
+            addNode addNode = new addNode(this,null);
             addNode.ShowDialog();
         }
         protected override void OnPaint(PaintEventArgs e)
@@ -69,6 +94,30 @@ namespace Algorithm_design_Imp
                 g.DrawString(node.Name, stName, Brushes.White, node.Position.X, node.Position.Y);
             }
         }
+        private Edge GetEdgeAtPosition(Point location)
+        {
+            foreach (var edge in Form1.graph.Edges) 
+            {
+                // محاسبه فاصله عمودی یا افقی موس از خط یال
+                double distance = GetDistanceFromPointToLine(edge.From.Position, edge.To.Position, location);
+                if (distance <= 5)  
+                {
+                    return edge;
+                }
+            }
+            return null;
+        }
+
+
+        private double GetDistanceFromPointToLine(Point lineStart, Point lineEnd, Point point)
+        {
+            // فرمول برای محاسبه فاصله از یک نقطه به یک خط
+            double numerator = Math.Abs((lineEnd.Y - lineStart.Y) * point.X - (lineEnd.X - lineStart.X) * point.Y + lineEnd.X * lineStart.Y - lineEnd.Y * lineStart.X);
+            double denominator = Math.Sqrt(Math.Pow(lineEnd.Y - lineStart.Y, 2) + Math.Pow(lineEnd.X - lineStart.X, 2));
+            return numerator / denominator;
+        }
+
+
         private Point GetEdgeStartPosition(Point from, Point to)
         {
       
@@ -110,7 +159,7 @@ namespace Algorithm_design_Imp
             PointF[] arrowHead = new PointF[] { arrowTip, leftWing, rightWing };
             g.FillPolygon(Brushes.Black, arrowHead);
         }
-
+     
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
             _isDragging = false;
@@ -153,7 +202,7 @@ namespace Algorithm_design_Imp
 
         private void btnAddEdge_Click(object sender, EventArgs e)
         {
-            addEdge addNode = new addEdge(this);
+            addEdge addNode = new addEdge(this,null);
             addNode.ShowDialog();
         }
 

@@ -24,14 +24,28 @@ namespace Algorithm_design_Imp
         }
 
         Form1 main;
-        public addEdge(Form1 value)
+        Edge _edit;
+        public addEdge(Form1 value, Edge selectedEdge)
         {
             InitializeComponent();
             this.main = value;
+            this._edit = selectedEdge;
         }
 
         private void addEdge_Load(object sender, EventArgs e)
         {
+            if (this._edit != null) {
+                cbFrom.Enabled = false;
+                cbFrom.Items.Add(new itemIn { Name = _edit.From.Name, Value = _edit.From.Name });
+                cbFrom.SelectedIndex = 0;
+                cbDestination.Enabled = false;  
+                cbDestination.Items.Add(new itemIn { Name = _edit.To.Name, Value = _edit.To.Name });
+                cbDestination.SelectedIndex = 0;
+
+                cbFeature.SelectedIndex = _edit.isDirected ? 1 : 0;
+                txtWeight.Text = _edit.Weight.ToString();
+                return;
+            }
             var dataSource = new List<itemIn>();
             for (int i = 0; i < Form1.graph.Nodes.Count; i++)
             {
@@ -69,17 +83,25 @@ namespace Algorithm_design_Imp
             {
                 var fromNode = Form1.graph.GetNodeByName(fromNodeName);
                 var toNode = Form1.graph.GetNodeByName(toNodeName);
-
-                if (fromNode != null && toNode != null)
+                if (this._edit != null)
+                {
+                    Form1.graph.GetEdgeByFromTo(fromNode, toNode).Weight= weight;
+                    Form1.graph.GetEdgeByFromTo(fromNode, toNode).isDirected = cbFeature.SelectedIndex ==1;
+                    main.Invalidate();
+                    Close();
+                    return;
+                }
+                    if (fromNode != null && toNode != null)
                 {
                     var edge = new Edge(fromNode, toNode, weight,cbFeature.SelectedIndex==1);
                     Form1.graph.AddEdge(edge);
-                    main.Invalidate(); 
                 }
+               
                 else
                 {
                     MessageBox.Show("One or both nodes not found.");
                 }
+                main.Invalidate();
             }
             else
             {

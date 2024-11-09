@@ -90,6 +90,7 @@
             Controls.Add(txtName);
             Name = "addNode";
             Text = "addNode";
+            Load += addNode_Load;
             ResumeLayout(false);
             PerformLayout();
         }

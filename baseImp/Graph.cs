@@ -28,7 +28,10 @@ namespace Algorithm_design_Imp.baseImp
         {
             Edges.Add(edge);
         }
-
+        public Edge GetEdgeByFromTo(Node from, Node to)
+        {
+            return Edges.FirstOrDefault(edge => edge.From == from && edge.To == to);
+        }
         public Node GetNodeByName(string name)
         {
             return Nodes.FirstOrDefault(n => n.Name == name);
