@@ -27,7 +27,7 @@ namespace Algorithm_design_Imp
             node = new Node("F", new Point(300, 400), 0);
             graph.AddNode(node);
 
-            graph.AddEdge(new Edge(graph.GetNodeByName("A"),graph.GetNodeByName("D"),9,false));
+            graph.AddEdge(new Edge(graph.GetNodeByName("A"), graph.GetNodeByName("D"), 9, false));
             graph.AddEdge(new Edge(graph.GetNodeByName("A"), graph.GetNodeByName("B"), 3, false));
             graph.AddEdge(new Edge(graph.GetNodeByName("A"), graph.GetNodeByName("C"), 5, false));
 
@@ -36,7 +36,7 @@ namespace Algorithm_design_Imp
             graph.AddEdge(new Edge(graph.GetNodeByName("B"), graph.GetNodeByName("C"), 3, false));
 
 
-          
+
 
             graph.AddEdge(new Edge(graph.GetNodeByName("C"), graph.GetNodeByName("D"), 2, false));
             graph.AddEdge(new Edge(graph.GetNodeByName("C"), graph.GetNodeByName("E"), 6, false));
@@ -243,6 +243,11 @@ namespace Algorithm_design_Imp
         {
             DijkstraForm dijkstra = new DijkstraForm();
             dijkstra.ShowDialog();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.DoubleBuffered = true;
         }
     }
 }

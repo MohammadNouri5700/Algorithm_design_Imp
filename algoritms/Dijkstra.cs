@@ -12,32 +12,56 @@ namespace Algorithm_design_Imp.algoritms
     internal class Dijkstra
     {
 
-        public Dictionary<Node, int> FindShortestPathDijkstra(Node startNode)
+        public Dictionary<Node, int> FindShortestPathDijkstra(Graph graph, Node startNode)
         {
-            var distances = Form1.graph.Nodes.ToDictionary(n => n, n => int.MaxValue);
-            distances[startNode] = 0;
-            var priorityQueue = new SortedSet<(int, Node)>(Comparer<(int, Node)>.Create((a, b) => a.Item1 == b.Item1 ? a.Item2.Name.CompareTo(b.Item2.Name) : a.Item1.CompareTo(b.Item1)));
-            priorityQueue.Add((0, startNode));
+            // Initialize the distances and previous nodes
+            var distances = new Dictionary<Node, int>();
+            var previousNodes = new Dictionary<Node, Node>();
+            var unvisitedNodes = new HashSet<Node>();
 
-            while (priorityQueue.Any())
+            // Set the initial distance to infinity, except for the start node
+            foreach (var node in graph.Nodes)
             {
-                var (currentDistance, currentNode) = priorityQueue.Min;
-                priorityQueue.Remove(priorityQueue.Min);
+                distances[node] = int.MaxValue;
+                previousNodes[node] = null;
+                unvisitedNodes.Add(node);
+            }
+            distances[startNode] = 0;
 
-                foreach (var edge in Form1.graph.Edges.Where(e => e.From == currentNode))
+            while (unvisitedNodes.Count > 0)
+            {
+                // Get the node with the smallest distance
+                var currentNode = unvisitedNodes.OrderBy(n => distances[n]).First();
+                unvisitedNodes.Remove(currentNode);
+
+                // Process each neighboring node
+                foreach (var edge in graph.Edges.Where(e => e.From == currentNode || e.To == currentNode))
                 {
-                    var neighbor = edge.To;
-                    var newDistance = currentDistance + edge.Weight;
-
-                    if (newDistance < distances[neighbor])
+                    // Check if the edge is directed or undirected
+                    Node neighbor = null;
+                    if (edge.From == currentNode)
                     {
-                        priorityQueue.Remove((distances[neighbor], neighbor));
-                        distances[neighbor] = newDistance;
-                        priorityQueue.Add((newDistance, neighbor));
+                        neighbor = edge.To;
+                    }
+                    else if (edge.To == currentNode)
+                    {
+                        neighbor = edge.From;
+                    }
+
+                    if (neighbor != null)
+                    {
+                        int newDist = distances[currentNode] + edge.Weight;
+
+                        if (newDist < distances[neighbor])
+                        {
+                            distances[neighbor] = newDist;
+                            previousNodes[neighbor] = currentNode;
+                        }
                     }
                 }
             }
 
+            // Return the distances as a Dictionary<Node, int>
             return distances;
         }
     }

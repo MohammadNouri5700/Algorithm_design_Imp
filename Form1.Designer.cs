@@ -156,6 +156,7 @@
             Name = "Form1";
             Text = "Algorithms";
             WindowState = FormWindowState.Maximized;
+            Load += Form1_Load;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel3.ResumeLayout(false);

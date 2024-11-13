@@ -35,11 +35,15 @@ namespace Algorithm_design_Imp
                 this.Close();
                 return;
             }
+            else
+            {
+                cbFrom.SelectedIndex= 0;
+            }
         }
         private async void RunDijkstraAndShowResults(Node startNode)
         {
             Dijkstra dijkstra = new Dijkstra();
-            var distances = await Task.Run(() => dijkstra.FindShortestPathDijkstra(startNode));
+            var distances = await Task.Run(() => dijkstra.FindShortestPathDijkstra(Form1.graph,startNode));
 
             StringBuilder results = new StringBuilder();
             foreach (var entry in distances)
