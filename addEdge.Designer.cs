@@ -139,6 +139,7 @@
             Controls.Add(cbFrom);
             Controls.Add(label1);
             Name = "addEdge";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "addEdge";
             Load += addEdge_Load;
             ResumeLayout(false);

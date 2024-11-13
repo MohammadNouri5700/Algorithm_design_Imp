@@ -108,9 +108,8 @@
             btnAddTmp.Name = "btnAddTmp";
             btnAddTmp.Size = new Size(170, 50);
             btnAddTmp.TabIndex = 3;
-            btnAddTmp.Text = "ADD TMP";
+            btnAddTmp.Text = "ADD DATA";
             btnAddTmp.UseVisualStyleBackColor = true;
-            btnAddTmp.Visible = false;
             btnAddTmp.Click += btnAddTmp_Click;
             // 
             // btnAddEdge

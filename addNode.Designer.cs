@@ -90,6 +90,7 @@
             Controls.Add(label1);
             Controls.Add(txtName);
             Name = "addNode";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "addNode";
             Load += addNode_Load;
             ResumeLayout(false);

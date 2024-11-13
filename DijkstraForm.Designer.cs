@@ -30,8 +30,6 @@
         {
             cbFrom = new ComboBox();
             label1 = new Label();
-            label2 = new Label();
-            cbDestination = new ComboBox();
             btnStart = new Button();
             SuspendLayout();
             // 
@@ -53,28 +51,10 @@
             label1.TabIndex = 1;
             label1.Text = "From :";
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(18, 44);
-            label2.Name = "label2";
-            label2.Size = new Size(73, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Destination :";
-            // 
-            // cbDestination
-            // 
-            cbDestination.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbDestination.FormattingEnabled = true;
-            cbDestination.Location = new Point(97, 41);
-            cbDestination.Name = "cbDestination";
-            cbDestination.Size = new Size(131, 23);
-            cbDestination.TabIndex = 2;
-            // 
             // btnStart
             // 
             btnStart.Dock = DockStyle.Bottom;
-            btnStart.Location = new Point(0, 88);
+            btnStart.Location = new Point(0, 54);
             btnStart.Name = "btnStart";
             btnStart.Size = new Size(271, 27);
             btnStart.TabIndex = 4;
@@ -82,17 +62,15 @@
             btnStart.UseVisualStyleBackColor = true;
             btnStart.Click += btnStart_Click;
             // 
-            // Dijkstra
+            // DijkstraForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(271, 115);
+            ClientSize = new Size(271, 81);
             Controls.Add(btnStart);
-            Controls.Add(label2);
-            Controls.Add(cbDestination);
             Controls.Add(label1);
             Controls.Add(cbFrom);
-            Name = "Dijkstra";
+            Name = "DijkstraForm";
             Text = "Dijkstra";
             Load += Dijkstra_Load;
             ResumeLayout(false);
@@ -103,8 +81,6 @@
 
         private ComboBox cbFrom;
         private Label label1;
-        private Label label2;
-        private ComboBox cbDestination;
         private Button btnStart;
     }
 }

@@ -14,16 +14,40 @@ namespace Algorithm_design_Imp
 
         public void addTmp()
         {
-            var node = new Node("a", new Point(300, 100), 0);
+            var node = new Node("A", new Point(300, 100), 0);
             graph.AddNode(node);
-            node = new Node("b", new Point(400, 200), 0);
+            node = new Node("B", new Point(400, 200), 0);
             graph.AddNode(node);
-            node = new Node("c", new Point(400, 400), 0);
+            node = new Node("C", new Point(400, 400), 0);
             graph.AddNode(node);
-            node = new Node("d", new Point(550, 300), 0);
+            node = new Node("D", new Point(550, 300), 0);
             graph.AddNode(node);
-            node = new Node("e", new Point(700, 200), 0);
+            node = new Node("E", new Point(700, 200), 0);
             graph.AddNode(node);
+            node = new Node("F", new Point(300, 400), 0);
+            graph.AddNode(node);
+
+            graph.AddEdge(new Edge(graph.GetNodeByName("A"),graph.GetNodeByName("D"),9,false));
+            graph.AddEdge(new Edge(graph.GetNodeByName("A"), graph.GetNodeByName("B"), 3, false));
+            graph.AddEdge(new Edge(graph.GetNodeByName("A"), graph.GetNodeByName("C"), 5, false));
+
+            graph.AddEdge(new Edge(graph.GetNodeByName("B"), graph.GetNodeByName("D"), 4, false));
+            graph.AddEdge(new Edge(graph.GetNodeByName("B"), graph.GetNodeByName("E"), 7, false));
+            graph.AddEdge(new Edge(graph.GetNodeByName("B"), graph.GetNodeByName("C"), 3, false));
+
+
+          
+
+            graph.AddEdge(new Edge(graph.GetNodeByName("C"), graph.GetNodeByName("D"), 2, false));
+            graph.AddEdge(new Edge(graph.GetNodeByName("C"), graph.GetNodeByName("E"), 6, false));
+
+            graph.AddEdge(new Edge(graph.GetNodeByName("D"), graph.GetNodeByName("F"), 2, false));
+            graph.AddEdge(new Edge(graph.GetNodeByName("D"), graph.GetNodeByName("E"), 2, false));
+
+            graph.AddEdge(new Edge(graph.GetNodeByName("E"), graph.GetNodeByName("F"), 5, false));
+
+            graph.AddEdge(new Edge(graph.GetNodeByName("F"), graph.GetNodeByName("C"), 8, false));
+
             Invalidate();
         }
 
@@ -78,6 +102,7 @@ namespace Algorithm_design_Imp
             {
                 var fromPosition = GetEdgeStartPosition(edge.From.Position, edge.To.Position);
                 var toPosition = GetEdgeEndPosition(edge.From.Position, edge.To.Position);
+
                 g.DrawLine(Pens.Black, fromPosition, toPosition);
 
                 if (edge.isDirected)
@@ -99,7 +124,6 @@ namespace Algorithm_design_Imp
         {
             foreach (var edge in Form1.graph.Edges)
             {
-                // محاسبه فاصله عمودی یا افقی موس از خط یال
                 double distance = GetDistanceFromPointToLine(edge.From.Position, edge.To.Position, location);
                 if (distance <= 5)
                 {
@@ -112,7 +136,7 @@ namespace Algorithm_design_Imp
 
         private double GetDistanceFromPointToLine(Point lineStart, Point lineEnd, Point point)
         {
-            // فرمول برای محاسبه فاصله از یک نقطه به یک خط
+
             double numerator = Math.Abs((lineEnd.Y - lineStart.Y) * point.X - (lineEnd.X - lineStart.X) * point.Y + lineEnd.X * lineStart.Y - lineEnd.Y * lineStart.X);
             double denominator = Math.Sqrt(Math.Pow(lineEnd.Y - lineStart.Y, 2) + Math.Pow(lineEnd.X - lineStart.X, 2));
             return numerator / denominator;
@@ -137,8 +161,10 @@ namespace Algorithm_design_Imp
 
 
             int offset = 20;
+            //blbMeasuare.Text = "x= " + ( to.X - offset).ToString() + "   y = " + (to.Y - offset);
 
-
+            //return new Point((int)(to.X - offset * Math.Abs(Math.Cos(angle))),
+            //                 (int)(to.Y - offset * Math.Abs(Math.Sin(angle))));
             return new Point((int)(to.X - offset * Math.Cos(angle)),
                              (int)(to.Y - offset * Math.Sin(angle)));
         }
@@ -173,11 +199,12 @@ namespace Algorithm_design_Imp
                 int dx = e.X - _dragStartPoint.X;
                 int dy = e.Y - _dragStartPoint.Y;
 
-                _draggedNode.Position = new Point(_draggedNode.Position.X + dx, _draggedNode.Position.Y + dy);
-
-                _dragStartPoint = e.Location;
-
-                this.Invalidate();
+                if (dx != 0 || dy != 0)
+                {
+                    _draggedNode.Position = new Point(_draggedNode.Position.X + dx, _draggedNode.Position.Y + dy);
+                    _dragStartPoint = e.Location;
+                    this.Invalidate(); // در نظر داشته باشید که محدوده مشخصی را دوباره رسم کنید
+                }
             }
         }
         private void Form1_MouseDown(object sender, MouseEventArgs e)

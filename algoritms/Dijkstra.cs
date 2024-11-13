@@ -12,72 +12,33 @@ namespace Algorithm_design_Imp.algoritms
     internal class Dijkstra
     {
 
-        private Dictionary<Node, int> distances;
-        private Dictionary<Node, Node> previousNodes; 
-
-
-
-        public void FDijkstra(Node startNode)
+        public Dictionary<Node, int> FindShortestPathDijkstra(Node startNode)
         {
-            foreach (var node in Form1.graph.Nodes)
-            {
-                distances[node] = int.MaxValue; 
-                previousNodes[node] = null; 
-            }
+            var distances = Form1.graph.Nodes.ToDictionary(n => n, n => int.MaxValue);
             distances[startNode] = 0;
+            var priorityQueue = new SortedSet<(int, Node)>(Comparer<(int, Node)>.Create((a, b) => a.Item1 == b.Item1 ? a.Item2.Name.CompareTo(b.Item2.Name) : a.Item1.CompareTo(b.Item1)));
+            priorityQueue.Add((0, startNode));
 
-            var priorityQueue = new SortedSet<Node>(Comparer<Node>.Create((n1, n2) => distances[n1].CompareTo(distances[n2])));
-
-            foreach (var node in Form1.graph.Nodes)
+            while (priorityQueue.Any())
             {
-                priorityQueue.Add(node);
-            }
+                var (currentDistance, currentNode) = priorityQueue.Min;
+                priorityQueue.Remove(priorityQueue.Min);
 
-            while (priorityQueue.Count > 0)
-            {
-                var currentNode = priorityQueue.Min;
-                priorityQueue.Remove(currentNode);
-
-                foreach (var edge in GetEdgesFromNode(currentNode))
+                foreach (var edge in Form1.graph.Edges.Where(e => e.From == currentNode))
                 {
                     var neighbor = edge.To;
-                    int newDist = distances[currentNode] + edge.Weight;
+                    var newDistance = currentDistance + edge.Weight;
 
-                    if (newDist < distances[neighbor])
+                    if (newDistance < distances[neighbor])
                     {
-                      
-                        distances[neighbor] = newDist;
-                        previousNodes[neighbor] = currentNode;
-
-                    
-                        priorityQueue.Remove(neighbor);  
-                        priorityQueue.Add(neighbor);  
+                        priorityQueue.Remove((distances[neighbor], neighbor));
+                        distances[neighbor] = newDistance;
+                        priorityQueue.Add((newDistance, neighbor));
                     }
                 }
             }
-        }
 
-        private List<Edge> GetEdgesFromNode(Node node)
-        {
-            return Form1.graph.Edges.Where(e => e.From == node).ToList();
-        }
-
-        public List<Node> GetShortestPath(Node startNode, Node endNode)
-        {
-            distances = new Dictionary<Node, int>();
-            previousNodes = new Dictionary<Node, Node>();
-            FDijkstra(startNode);
-
-            List<Node> path = new List<Node>();
-            Node currentNode = endNode;
-
-            while (currentNode != null)
-            {
-                path.Insert(0, currentNode);
-                currentNode = previousNodes[currentNode]; 
-            }
-
-            return path;
+            return distances;
         }
     }
 }
